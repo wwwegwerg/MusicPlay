@@ -30,76 +30,124 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
 
-    <View
-        android:id="@+id/view"
+    <ImageView
+        android:id="@+id/coverImage"
         android:layout_width="262dp"
-        android:layout_height="312dp"
+        android:layout_height="262dp"
         android:layout_marginTop="128dp"
-        android:background="@color/lgray"
+        android:background="@drawable/border"
+        android:contentDescription="@string/cover_content_description"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView7"
+        android:id="@+id/playIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="236dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:clickable="true"
+        android:contentDescription="@string/play_icon_content_description"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="@+id/coverImage"
+        app:layout_constraintEnd_toEndOf="@+id/coverImage"
+        app:layout_constraintStart_toStartOf="@+id/coverImage"
+        app:layout_constraintTop_toTopOf="@+id/coverImage"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.5"
         app:srcCompat="@drawable/icon" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="154dp"
-        android:layout_height="51dp"
-        android:layout_marginTop="376dp"
-        android:text="Жанр:"
-        android:textSize="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.369"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/genreLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/genre_label"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/coverImage"
+        app:layout_constraintTop_toBottomOf="@+id/coverImage" />
+
+    <TextView
+        android:id="@+id/genreValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/genre_unknown"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/trackProgress"
+        app:layout_constraintBottom_toBottomOf="@+id/genreLabel"
+        app:layout_constraintStart_toEndOf="@+id/genreLabel"
+        app:layout_constraintTop_toTopOf="@+id/genreLabel" />
+
+    <ProgressBar
+        android:id="@+id/trackProgress"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBaseline_toBaselineOf="@+id/genreLabel"
+        app:layout_constraintEnd_toEndOf="@+id/coverImage"
+        app:layout_constraintStart_toEndOf="@+id/genreValue"
+        app:layout_constraintTop_toTopOf="@+id/genreLabel" />
+
+    <TextView
+        android:id="@+id/trackStatusText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/jamendo_loading"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/coverImage"
+        app:layout_constraintStart_toStartOf="@+id/coverImage"
+        app:layout_constraintTop_toBottomOf="@+id/genreLabel" />
+
+    <Button
+        android:id="@+id/nextTrackButton"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/button"
+        android:text="@string/new_track"
+        app:layout_constraintEnd_toEndOf="@+id/coverImage"
+        app:layout_constraintStart_toStartOf="@+id/coverImage"
+        app:layout_constraintTop_toBottomOf="@+id/trackStatusText" />
 
     <EditText
-        android:id="@+id/editTextText"
-        android:layout_width="233dp"
+        android:id="@+id/guessInput"
+        android:layout_width="0dp"
         android:layout_height="49dp"
-        android:layout_marginTop="444dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@android:color/transparent"
         android:ems="10"
-        android:hint="Введи назание"
+        android:hint="@string/guess_hint"
         android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView3" />
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="@+id/coverImage"
+        app:layout_constraintStart_toStartOf="@+id/coverImage"
+        app:layout_constraintTop_toBottomOf="@+id/nextTrackButton" />
 
     <Button
-        android:id="@+id/btnGoToSecond"
-        android:layout_width="220dp"
-        android:layout_height="68dp"
-        android:layout_marginTop="528dp"
+        android:id="@+id/checkAnswerButton"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/button"
-        android:text="Выбрать жанр"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/check_answer"
+        app:layout_constraintEnd_toEndOf="@+id/coverImage"
+        app:layout_constraintStart_toStartOf="@+id/coverImage"
+        app:layout_constraintTop_toBottomOf="@+id/guessInput" />
 
-    <Button
-        android:id="@+id/exit"
-        android:layout_width="220dp"
-        android:layout_height="68dp"
-        android:layout_marginTop="612dp"
-        android:background="@drawable/button1"
-        android:onClick="exitApp"
-        android:text="Выйти"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="OnClick" />
-
+    <TextView
+        android:id="@+id/resultText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/coverImage"
+        app:layout_constraintStart_toStartOf="@+id/coverImage"
+        app:layout_constraintTop_toBottomOf="@+id/checkAnswerButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

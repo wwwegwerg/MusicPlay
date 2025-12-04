@@ -1,47 +1,46 @@
 package com.example.musicplay
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.musicplay.databinding.ActivityJanreBinding  // Добавьте этот импорт
+import com.example.musicplay.databinding.ActivityJanreBinding
 
 class Janre : AppCompatActivity() {
 
-    private lateinit var binding: ActivityJanreBinding  // Исправлено!
+    private lateinit var binding: ActivityJanreBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityJanreBinding.inflate(layoutInflater)  // Исправлено!
+        binding = ActivityJanreBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupButtons()
     }
+
     private fun setupButtons() {
-        // Кнопка 1
         binding.button3.setOnClickListener {
-            navigateToResult("Вы выбрали: Опция 1 ✅")
+            navigateToResult(displayName = getString(R.string.genre_rock), genreQuery = "rock")
         }
 
-        // Кнопка 2
         binding.button.setOnClickListener {
-            navigateToResult("Вы выбрали: Опция 2 🔥")
+            navigateToResult(displayName = getString(R.string.genre_rap), genreQuery = "rap")
         }
 
-        // Кнопка 3
         binding.button5.setOnClickListener {
-            navigateToResult("Вы выбрали: Опция 3 ⭐")
+            navigateToResult(displayName = getString(R.string.genre_metal), genreQuery = "metal")
         }
 
-        // Кнопка 4
         binding.button4.setOnClickListener {
-            navigateToResult("Вы выбрали: Опция 4 🎯")
+            navigateToResult(displayName = getString(R.string.genre_indie), genreQuery = "indie")
         }
     }
 
-    private fun navigateToResult(buttonText: String) {
-        val intent = Intent(this, MainWindow::class.java).apply {
-            putExtra("SELECTED_TEXT", buttonText)
-        }
-        startActivity(intent)
+    private fun navigateToResult(displayName: String, genreQuery: String) {
+        startActivity(
+            MainWindow.createIntent(
+                context = this,
+                genreQuery = genreQuery,
+                genreTitle = displayName
+            )
+        )
     }
 }
