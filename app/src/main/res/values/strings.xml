@@ -23,4 +23,6 @@
     <string name="guess_wrong">Пока нет. Правильный ответ: %1$s</string>
     <string name="cover_content_description">Обложка трека</string>
     <string name="play_icon_content_description">Запуск прослушивания</string>
+    <string name="artist_label">Исполнитель:</string>
+    <string name="artist_unknown">Неизвестен</string>
 </resources>

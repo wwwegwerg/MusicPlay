@@ -47,6 +47,7 @@ class MainWindow : AppCompatActivity() {
         binding.checkAnswerButton.setOnClickListener { checkGuess() }
         loadCover(null)
         setPlaybackEnabled(false)
+        binding.artistValue.text = getString(R.string.artist_unknown)
         fetchTrack()
     }
 
@@ -70,7 +71,7 @@ class MainWindow : AppCompatActivity() {
                 currentTrack = track
                 binding.resultText.text = ""
                 binding.guessInput.text?.clear()
-                updateReadyStatus()
+                updateReadyStatus(track)
                 loadCover(track.image)
                 preparePlayer(track.audio)
             }.onFailure { throwable ->
@@ -78,6 +79,7 @@ class MainWindow : AppCompatActivity() {
                     R.string.jamendo_error,
                     throwable.message ?: "unknown"
                 )
+                binding.artistValue.text = getString(R.string.artist_unknown)
                 loadCover(null)
                 releasePlayer()
             }
@@ -182,9 +184,10 @@ class MainWindow : AppCompatActivity() {
         binding.playIcon.alpha = if (enabled) 1f else 0.5f
     }
 
-    private fun updateReadyStatus() {
+    private fun updateReadyStatus(track: JamendoTrack? = currentTrack) {
         val artistName =
-            currentTrack?.artistName?.ifBlank { null } ?: getString(R.string.genre_unknown)
+            track?.artistName?.ifBlank { null } ?: getString(R.string.artist_unknown)
+        binding.artistValue.text = artistName
         binding.trackStatusText.text = getString(R.string.jamendo_ready, artistName)
     }
 
