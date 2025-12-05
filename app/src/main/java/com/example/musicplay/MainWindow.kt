@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.example.musicplay.auth.SessionManager
 import com.example.musicplay.databinding.ActivityMainWindowBinding
 import com.example.musicplay.jamendo.JamendoApi
 import com.example.musicplay.jamendo.JamendoRepository
@@ -21,6 +22,7 @@ import kotlinx.coroutines.launch
 class MainWindow : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainWindowBinding
+    private val sessionManager by lazy { SessionManager(this) }
     private val repository by lazy {
         JamendoRepository(JamendoApi.service, BuildConfig.JAMENDO_CLIENT_ID)
     }
@@ -30,6 +32,9 @@ class MainWindow : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (!ensureAuthorized()) {
+            return
+        }
         enableEdgeToEdge()
         binding = ActivityMainWindowBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -206,5 +211,14 @@ class MainWindow : AppCompatActivity() {
                 putExtra(EXTRA_GENRE_QUERY, genreQuery)
                 putExtra(EXTRA_GENRE_TITLE, genreTitle)
             }
+    }
+
+    private fun ensureAuthorized(): Boolean {
+        if (!sessionManager.hasSession()) {
+            startActivity(AuthActivity.createIntent(this))
+            finish()
+            return false
+        }
+        return true
     }
 }

@@ -7,10 +7,17 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.musicplay.auth.SessionManager
 
 class MainActivity : AppCompatActivity() {
+
+    private val sessionManager by lazy { SessionManager(this) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (!ensureAuthorized()) {
+            return
+        }
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -25,8 +32,17 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         button2.setOnClickListener {
-            // Закрываем все Activity и выходим
+            sessionManager.clearSession()
             finishAffinity()
         }
+    }
+
+    private fun ensureAuthorized(): Boolean {
+        if (!sessionManager.hasSession()) {
+            startActivity(AuthActivity.createIntent(this))
+            finish()
+            return false
+        }
+        return true
     }
 }

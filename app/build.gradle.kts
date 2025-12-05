@@ -18,11 +18,18 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
-        val jamendoClientId = localProperties(rootDir).getProperty("jamendoClientId") ?: ""
+        val localProps = localProperties(rootDir)
+        val jamendoClientId = localProps.getProperty("jamendoClientId") ?: ""
         buildConfigField(
             "String",
             "JAMENDO_CLIENT_ID",
             "\"$jamendoClientId\""
+        )
+        val authBaseUrl = localProps.getProperty("authBaseUrl") ?: ""
+        buildConfigField(
+            "String",
+            "AUTH_BASE_URL",
+            "\"$authBaseUrl\""
         )
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

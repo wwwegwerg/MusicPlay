@@ -25,4 +25,18 @@
     <string name="play_icon_content_description">Запуск прослушивания</string>
     <string name="artist_label">Исполнитель:</string>
     <string name="artist_unknown">Неизвестен</string>
+    <string name="auth_title">Вход в MusicPlay</string>
+    <string name="auth_username_hint">Имя пользователя</string>
+    <string name="auth_password_hint">Пароль</string>
+    <string name="auth_login">Войти</string>
+    <string name="auth_register">Зарегистрироваться</string>
+    <string name="auth_status_ready">Введи логин и пароль, чтобы продолжить.</string>
+    <string name="auth_status_loading">Отправляем запрос…</string>
+    <string name="auth_status_success">Готово! Загружаем приложение…</string>
+    <string name="auth_status_error">Ошибка: %1$s</string>
+    <string name="auth_validation_username">Укажи имя от 3 символов.</string>
+    <string name="auth_validation_password">Пароль должен быть не короче 6 символов.</string>
+    <string name="auth_checking_session">Проверяем сохранённую сессию…</string>
+    <string name="auth_config_missing">Задай authBaseUrl в local.properties.</string>
+    <string name="auth_error_unknown">что-то пошло не так</string>
 </resources>

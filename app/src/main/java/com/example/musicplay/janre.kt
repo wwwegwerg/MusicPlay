@@ -3,13 +3,18 @@ package com.example.musicplay
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.musicplay.databinding.ActivityJanreBinding
+import com.example.musicplay.auth.SessionManager
 
 class Janre : AppCompatActivity() {
 
     private lateinit var binding: ActivityJanreBinding
+    private val sessionManager by lazy { SessionManager(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (!ensureAuthorized()) {
+            return
+        }
         binding = ActivityJanreBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -42,5 +47,14 @@ class Janre : AppCompatActivity() {
                 genreTitle = displayName
             )
         )
+    }
+
+    private fun ensureAuthorized(): Boolean {
+        if (!sessionManager.hasSession()) {
+            startActivity(AuthActivity.createIntent(this))
+            finish()
+            return false
+        }
+        return true
     }
 }
