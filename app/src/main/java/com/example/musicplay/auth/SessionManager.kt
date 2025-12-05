@@ -3,10 +3,15 @@ package com.example.musicplay.auth
 import android.content.Context
 import androidx.core.content.edit
 
+/**
+ * Лёгкий помощник поверх SharedPreferences, хранящий токен и сведения о пользователе,
+ * чтобы другие части приложения могли быстро проверять состояние сессии.
+ */
 class SessionManager(context: Context) {
 
     private val preferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
+    /** Сохраняет токен и поля пользователя из ответа авторизации. */
     fun saveAuth(response: AuthResponseDto) {
         preferences.edit {
             putString(KEY_TOKEN, response.token)
@@ -15,6 +20,7 @@ class SessionManager(context: Context) {
         }
     }
 
+    /** Обновляет кэшированные данные пользователя, не трогая токен. */
     fun saveUser(user: PublicUserDto) {
         preferences.edit {
             putString(KEY_USER_ID, user.id)
@@ -26,8 +32,10 @@ class SessionManager(context: Context) {
 
     fun getUsername(): String? = preferences.getString(KEY_USER_NAME, null)
 
+    /** Возвращает `true`, если в хранилище есть непустой токен. */
     fun hasSession(): Boolean = !getToken().isNullOrBlank()
 
+    /** Удаляет все сохранённые данные авторизации. */
     fun clearSession() {
         preferences.edit { clear() }
     }

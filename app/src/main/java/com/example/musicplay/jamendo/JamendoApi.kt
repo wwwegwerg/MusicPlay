@@ -5,6 +5,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+/** Собирает и предоставляет единственный экземпляр Retrofit-[JamendoService]. */
 object JamendoApi {
     private const val BASE_URL = "https://api.jamendo.com/v3.0/"
 

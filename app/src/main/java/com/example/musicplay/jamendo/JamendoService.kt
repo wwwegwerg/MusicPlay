@@ -3,7 +3,9 @@ package com.example.musicplay.jamendo
 import retrofit2.http.GET
 import retrofit2.http.Query
 
+/** Retrofit-интерфейс с эндпоинтами поиска треков Jamendo. */
 interface JamendoService {
+    /** Запрашивает подборку треков Jamendo по указанному тегу жанра (fuzzy). */
     @GET("tracks/")
     suspend fun getTracks(
         @Query("client_id") clientId: String,
