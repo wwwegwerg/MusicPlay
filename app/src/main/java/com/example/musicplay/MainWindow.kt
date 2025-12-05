@@ -120,6 +120,7 @@ class MainWindow : AppCompatActivity() {
         }
         player.setOnPreparedListener {
             setPlaybackEnabled(true)
+            binding.trackStatusText.text = getString(R.string.play_snippet)
         }
         player.setOnCompletionListener {
             updateReadyStatus()
