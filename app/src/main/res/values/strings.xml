@@ -7,14 +7,14 @@
     <string name="genre_label">Жанр:</string>
     <string name="genre_unknown">Не выбран</string>
     <string name="jamendo_client_missing">Укажи jamendoClientId в local.properties</string>
-    <string name="jamendo_loading">Ищем трек на Jamendo...</string>
+    <string name="jamendo_loading">Ищем трек на Jamendo…</string>
     <string name="jamendo_ready">Артист %1$s. Угадай название!</string>
     <string name="jamendo_no_audio">Трек найден, но аудио недоступно.</string>
     <string name="jamendo_error">Ошибка загрузки: %1$s</string>
     <string name="new_track">Другой трек</string>
     <string name="play_snippet">Играть фрагмент</string>
     <string name="pause_snippet">Пауза</string>
-    <string name="preparing_snippet">Готовим плеер...</string>
+    <string name="preparing_snippet">Готовим плеер…</string>
     <string name="guess_hint">Введи название</string>
     <string name="check_answer">Проверить ответ</string>
     <string name="guess_prompt">Введите вашу версию</string>

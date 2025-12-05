@@ -1,5 +1,24 @@
 import java.io.File
 import java.util.Properties
+import org.gradle.api.DefaultTask
+import org.gradle.api.GradleException
+import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.provider.Property
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.TaskAction
+import org.gradle.kotlin.dsl.registering
+
+val localProps = localProperties(rootDir)
+val jamendoClientId =
+    localProps.getProperty("jamendoClientId")?.takeIf { it.isNotBlank() }
+        ?: throw GradleException("Specify jamendoClientId in local.properties")
+val authBaseUrl = localProps.getProperty("authBaseUrl")?.takeIf { it.isNotBlank() }
+    ?: throw GradleException("Specify authBaseUrl in local.properties")
+val networkSecurityDomain =
+    localProps.getProperty("networkSecurityDomain")?.takeIf { it.isNotBlank() }
+        ?: throw GradleException("Specify networkSecurityDomain in local.properties")
+val generatedNetworkSecurityResDir = layout.buildDirectory.dir("generated/networkSecurity/res")
 
 plugins {
     alias(libs.plugins.android.application)
@@ -18,14 +37,11 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
-        val localProps = localProperties(rootDir)
-        val jamendoClientId = localProps.getProperty("jamendoClientId") ?: ""
         buildConfigField(
             "String",
             "JAMENDO_CLIENT_ID",
             "\"$jamendoClientId\""
         )
-        val authBaseUrl = localProps.getProperty("authBaseUrl") ?: ""
         buildConfigField(
             "String",
             "AUTH_BASE_URL",
@@ -55,6 +71,16 @@ android {
         viewBinding = true
         buildConfig = true
     }
+    sourceSets["main"].res.srcDir(generatedNetworkSecurityResDir)
+}
+
+val generateNetworkSecurityConfig by tasks.registering(GenerateNetworkSecurityConfigTask::class) {
+    domain.set(networkSecurityDomain)
+    outputDir.set(generatedNetworkSecurityResDir.map { it.dir("xml") })
+}
+
+tasks.named("preBuild") {
+    dependsOn(generateNetworkSecurityConfig)
 }
 
 dependencies {
@@ -72,6 +98,31 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+}
+
+abstract class GenerateNetworkSecurityConfigTask : DefaultTask() {
+    @get:Input
+    abstract val domain: Property<String>
+
+    @get:OutputDirectory
+    abstract val outputDir: DirectoryProperty
+
+    @TaskAction
+    fun generate() {
+        val xmlDir = outputDir.get().asFile
+        xmlDir.mkdirs()
+        val configFile = File(xmlDir, "network_security_config.xml")
+        configFile.writeText(
+            """
+                <?xml version="1.0" encoding="utf-8"?>
+                <network-security-config>
+                    <domain-config cleartextTrafficPermitted="true">
+                        <domain includeSubdomains="false">${domain.get()}</domain>
+                    </domain-config>
+                </network-security-config>
+            """.trimIndent()
+        )
+    }
 }
 
 fun localProperties(rootDir: File): Properties {

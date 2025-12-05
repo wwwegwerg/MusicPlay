@@ -1,3 +1,4 @@
 sdk.dir=тут будет путь к sdk
 jamendoClientId=сюда вставить client id jamendo без ковычек
 authBaseUrl=базовый url API авторизации (например https://example.com/)
+networkSecurityDomain=айпи/домен для network_security_config (например api.example.com)
